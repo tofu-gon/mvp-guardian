@@ -10,7 +10,7 @@ export async function GET(req: NextRequest){
     return new Response(JSON.stringify({
       twitterRecentPost: await getTwitterRecentPost(keyword), // ツイッター、直近の関連キーワードツイート
       twitterUserPost: await getTwitterUserPost(), // ツイッター、指定ユーザーの直近ツイート
-      GoogleNews: await getGoogleNews(keyword),
+      googleNews: await getGoogleNews(keyword),
     }), {status: 200})
   } catch (e: Error){
     return new Response(JSON.stringify({
@@ -20,7 +20,3 @@ export async function GET(req: NextRequest){
     }), {status: 500})
   }
 }
-
-
-
-// https://serpapi.com/search.json?engine=google&q=&api_key=${API_KEY}`
