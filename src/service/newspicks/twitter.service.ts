@@ -1,8 +1,7 @@
 import { submitGetRequest } from '../apiclient';
 import { NewsResponse } from './type';
 
-// TODO: sort_orderで話題ツイート検索
-// TODO: meta.next_tokenを駆使して上位100件ツイートを取得するように改修
+const MAX_SIZE = '10' // 取得するツイート数を指定（最大100件）
 
 export async function getTwitterRecentPost(keyword: string): Promise<NewsResponse>{
   const url = 'https://api.twitter.com/2/tweets/search/recent';
@@ -15,7 +14,7 @@ export async function getTwitterRecentPost(keyword: string): Promise<NewsRespons
   const params: Record<string, string> = {
     query: keyword,
     'tweet.fields': 'text,created_at',
-    max_results: '100', // 取得するツイート数を指定（最大100件）
+    max_results: MAX_SIZE,
     sort_order: 'relevancy', // 話題のツイート検索ができる
   }
 
@@ -55,7 +54,7 @@ export async function getTwitterUserPost(): Promise<NewsResponse> {
 
     const params: Record<string, string> = {
       'tweet.fields': 'text,created_at',
-      max_results: '100',
+      max_results: MAX_SIZE,
     }
 
     const response = await submitGetRequest(url, headers, params)
