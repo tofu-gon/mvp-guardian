@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 利用方法
 
-## Getting Started
+1. ターミナルで、変数ファイルを作成してください:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+touch .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. `.env.local` の中身は下記内容で置き換えてください
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+TWITTER_BEARER_TOKEN='xxxxxx'
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+SERP_API_KEY='xxxxxxx'
 
-## Learn More
+OPEN_AI_API_KEY='xxxxx'
 
-To learn more about Next.js, take a look at the following resources:
+DEEPSEEK_API_KEY='xxxxx'
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. アプリ起動し
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+$ npm run install
+$ npm run dev
+```
 
-## Deploy on Vercel
+ブラウザーで、
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `http://localhost:3000/api/news?keyword=uniswap` で、直近のニュース記事をtwitterとgoogle newsから取得できます。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `http://localhost:3000/api/summary?keyword=uniswap` で、(openaiによる)記事のまとめ情報と、上記ニュース記事のjsonを取得できます。
