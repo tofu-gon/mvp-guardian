@@ -14,8 +14,11 @@ export async function GET(req: NextRequest){
     const twitterUserPost = await getTwitterUserPost(); // ツイッター、指定ユーザーの直近ツイート
     const googleNews = await getGoogleNews(keyword);
 
+    const newsTitle = googleNews.news
+    const tweets = [...twitterRecentPost.news, ...twitterUserPost.news]
+
     return new Response(JSON.stringify({
-      summary: await openaiSummary(googleNews.news, [...twitterRecentPost.news, ...twitterUserPost.news]),
+      openaiSummary: await openaiSummary(newsTitle, tweets),
       twitterRecentPost: twitterRecentPost,
       twitterUserPost: twitterUserPost,
       googleNews: googleNews
