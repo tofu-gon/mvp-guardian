@@ -1,3 +1,4 @@
+import { getDiscordAnnounce } from '@/service/newspicks/discord.service';
 import { getGoogleNews } from '@/service/newspicks/serp.service';
 import { getTwitterRecentPost, getTwitterUserPost } from '@/service/newspicks/twitter.service';
 import { NextRequest } from 'next/server';
@@ -11,6 +12,7 @@ export async function GET(req: NextRequest){
       twitterRecentPost: await getTwitterRecentPost(keyword), // ツイッター、直近の関連キーワードツイート
       twitterUserPost: await getTwitterUserPost(), // ツイッター、指定ユーザーの直近ツイート
       googleNews: await getGoogleNews(keyword),
+      discordAnnounce: await getDiscordAnnounce(),
     }), {status: 200})
   } catch (e: Error){
     return new Response(JSON.stringify({
