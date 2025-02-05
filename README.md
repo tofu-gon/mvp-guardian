@@ -27,6 +27,8 @@ $ npm run dev
 
 ブラウザーで、
 
-- `http://localhost:3000/api/news?keyword=uniswap` で、直近のニュース記事をtwitterとgoogle newsから取得できます。
-
-- `http://localhost:3000/api/summary?keyword=uniswap` で、(openaiによる)記事のまとめ情報と、上記ニュース記事のjsonを取得できます。
+- `http://localhost:3000/api/script` で、
+  - 直近のtwitterとdiscordのポストを抽出しdbに登録します。
+  - ポスト内容をopenAIで大事かどうかを判定してもらう
+  - openAIが大事と判定したものをDBに登録する
+  - DBの最新結果をAPIのresponseに設定して表示する
