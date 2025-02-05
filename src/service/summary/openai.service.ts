@@ -1,7 +1,6 @@
 import { submitPostRequest } from '../apiclient';
-import { summaryPrompt } from './prompthelper';
 
-export async function openaiSummary(newsTitle: string[], tweets: string[]): Promise<string> {
+export async function openaiSummary(prompt: string): Promise<string> {
   const url = 'https://api.openai.com/v1/completions'
 
   const headers: Record<string, string> = {
@@ -11,7 +10,7 @@ export async function openaiSummary(newsTitle: string[], tweets: string[]): Prom
 
   const body = {
     model: 'gpt-3.5-turbo-instruct', // 使用するモデルを選択
-    prompt: summaryPrompt(newsTitle, tweets),
+    prompt: prompt,
     max_tokens: 150,
     temperature: 0.7,
   }

@@ -1,6 +1,7 @@
 import { getGoogleNews } from '@/service/newspicks/serp.service';
 import { getTwitterRecentPost, getTwitterUserPost } from '@/service/newspicks/twitter.service';
 import { openaiSummary } from '@/service/summary/openai.service';
+import { summaryPrompt } from '@/service/summary/prompthelper';
 import { NextRequest } from 'next/server';
 
 
@@ -18,7 +19,7 @@ export async function GET(req: NextRequest){
     const tweets = [...twitterRecentPost.news, ...twitterUserPost.news]
 
     return new Response(JSON.stringify({
-      openaiSummary: await openaiSummary(newsTitle, tweets),
+      openaiSummary: await openaiSummary(summaryPrompt(newsTitle, tweets)),
       twitterRecentPost: twitterRecentPost,
       twitterUserPost: twitterUserPost,
       googleNews: googleNews
