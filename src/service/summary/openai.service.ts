@@ -16,7 +16,6 @@ export async function openaiSummary(prompt: string): Promise<string> {
   }
 
   const response = await submitPostRequest(url, headers, body)
-  console.log(response.jsonBody)
 
   return response.jsonBody.choices[0].text
 }

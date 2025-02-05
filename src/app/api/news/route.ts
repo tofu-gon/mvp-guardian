@@ -10,7 +10,7 @@ export async function GET(req: NextRequest){
   try{
     return new Response(JSON.stringify({
       twitterRecentPost: await getTwitterRecentPost(keyword), // ツイッター、直近の関連キーワードツイート
-      twitterUserPost: await getTwitterUserPost(), // ツイッター、指定ユーザーの直近ツイート
+      twitterUserPost: await getTwitterUserPost("web3", ["cookiedotfun"]), // ツイッター、指定ユーザーの直近ツイート
       googleNews: await getGoogleNews(keyword),
       discordAnnounce: await getDiscordAnnounce(),
     }), {status: 200})

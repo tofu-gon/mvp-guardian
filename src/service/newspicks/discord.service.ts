@@ -1,9 +1,9 @@
 // 既存のコミュニティにbotを直接参加させることが難しく(管理者権限がないため)
 // アナウンスチェンネルの内容を転送し、転送先のチャンネルにbotを入れてメッセージを取得しています。
 import { submitGetRequest } from '../apiclient';
-import { NewsResponse } from './type';
+import { News, NewsResponse } from './type';
 
-export async function getDiscordAnnounce(): Promise<NewsResponse> {
+export async function getDiscordAnnounce(afterId?: string): Promise<NewsResponse> {
   const url = 'https://discord.com/api/v10/channels/1335967727025782805/messages'; // customized announces channel
 
   const headers: Record<string, string> = {
@@ -12,8 +12,8 @@ export async function getDiscordAnnounce(): Promise<NewsResponse> {
   }
 
   const params: Record<string, string> = {
-    'after': '1335975618898296836', // 特定メッセージ以降
-    'limit': '10',
+    'after': afterId || '1335975618898296836', // 特定メッセージ以降
+    'limit': '100',
   }
 
   const response = await submitGetRequest(url, headers, params)
@@ -21,13 +21,22 @@ export async function getDiscordAnnounce(): Promise<NewsResponse> {
   if(response.statusCode == 200){
     return {
       isSuccess: true,
-      news: response.jsonBody.map((msg: {content: string}) => msg.content),
+      newsPosts: response.jsonBody.map((post: {content: string, embeds?: {title: string, description: string}[], timestamp: string, id: string, author: { username: string}}): News => {
+        return {
+          postid: post.id,
+          type: 'discord',
+          content: post.content + post.embeds?.map(emb => `\n${emb.title}\n"""\n${emb.description}\n"""`).join(''),
+          project: post.author.username, // TODO: 判定方法
+          author: post.author.username,
+          timestamp: post.timestamp,
+        }
+      }),
       errorMsg: ''
     }
   } else {
     return {
       isSuccess: false,
-      news: [],
+      newsPosts: [],
       errorMsg: `API ERROR, error code ${response.statusCode}, error reason: ${response.jsonBody.detail}`
     }
   }

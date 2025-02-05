@@ -1,5 +1,5 @@
 import { submitGetRequest } from '../apiclient';
-import { NewsResponse } from './type';
+import { News, NewsResponse } from './type';
 
 const MAX_SIZE = '10' // 取得するツイート数を指定（最大100件）
 
@@ -22,28 +22,28 @@ export async function getTwitterRecentPost(keyword: string): Promise<NewsRespons
   if(response.statusCode == 200) {
     return {
       isSuccess: true,
-      news: response.jsonBody.data.map((tweet: { text: string }) => tweet.text),
+      newsPosts: response.jsonBody.data.map((tweet: { text: string }) => tweet.text),
       errorMsg: ''
     }
   } else {
     return {
       isSuccess: false,
-      news: [],
+      newsPosts: [],
       errorMsg: `API ERROR, error code ${response.statusCode}, error reason: ${response.jsonBody.detail}`
     }
   }
 }
 
-export async function getTwitterUserPost(): Promise<NewsResponse> {
-  const USER_NAME_LIST = ["cookiedotfun"]
+export async function getTwitterUserPost(pjName: string, accountNameList: string[]): Promise<NewsResponse> {
+  const USER_NAME_LIST = accountNameList
 
   let isSuccess = false
-  const news: string[] = []
+  const news: News[] = []
   let errorMsg = ''
 
   await Promise.all(USER_NAME_LIST.map(async name => {
     const id = await getUserIdByAccountName(name)
-    console.log(name, ':', id)
+    console.log(name, ' -> ', id)
 
     const url = `https://api.twitter.com/2/users/${id}/tweets`
 
@@ -60,7 +60,16 @@ export async function getTwitterUserPost(): Promise<NewsResponse> {
     const response = await submitGetRequest(url, headers, params)
 
     if(response.statusCode == 200) {
-      const tmp = response.jsonBody.data.map((tweet: { text: string }) => tweet.text)
+      const tmp = response.jsonBody.data.map((tweet: { id: string, text: string, created_at: string }):News => {
+        return {
+          postid: tweet.id,
+          type: 'tweet',
+          content: tweet.text,
+          project: pjName,
+          author: name,
+          timestamp: tweet.created_at,
+        }
+      })
       isSuccess = true
       news.push(...tmp)
     } else {
@@ -71,7 +80,7 @@ export async function getTwitterUserPost(): Promise<NewsResponse> {
 
   return {
     isSuccess,
-    news,
+    newsPosts: news,
     errorMsg
   }
 }
