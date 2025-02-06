@@ -1,5 +1,5 @@
 import { getDiscordAnnounce } from '@/service/newspicks/discord.service'
-import { getTwitterUserPost } from '@/service/newspicks/twitter.service'
+import { getTwitterUserPost, TWITTER_INCIDENT_PJ_LIST } from '@/service/newspicks/twitter.service'
 import { News, NewsResponse, TweetAccounts } from '@/service/newspicks/type'
 import { openaiSummary } from '@/service/summary/openai.service'
 import { judgePrompt } from '@/service/summary/prompthelper'
@@ -16,12 +16,8 @@ export async function GET() {
       newsPosts: [],
       errorMsg: ''
     }
-    const pjList: TweetAccounts[] = [
-      {
-        pjName: 'web3',
-        accountNames: ["cookiedotfun"]
-      }
-    ]
+    const pjList: TweetAccounts[] = TWITTER_INCIDENT_PJ_LIST
+
     await Promise.all(pjList.map(async it => {
       const pjName = it.pjName
       const accountNameList = it.accountNames
