@@ -3,37 +3,6 @@ import { News, NewsResponse } from './type';
 
 const MAX_SIZE = '10' // 取得するツイート数を指定（最大100件）
 
-export async function getTwitterRecentPost(keyword: string): Promise<NewsResponse>{
-  const url = 'https://api.twitter.com/2/tweets/search/recent';
-
-  const headers: Record<string, string> = {
-    'content-type': 'application/json',
-    authorization: `Bearer ${authToken()}`,
-  }
-
-  const params: Record<string, string> = {
-    query: keyword,
-    'tweet.fields': 'text,created_at',
-    max_results: MAX_SIZE,
-    sort_order: 'relevancy', // 話題のツイート検索ができる
-  }
-
-  const response = await submitGetRequest(url, headers, params)
-  if(response.statusCode == 200) {
-    return {
-      isSuccess: true,
-      newsPosts: response.jsonBody.data.map((tweet: { text: string }) => tweet.text),
-      errorMsg: ''
-    }
-  } else {
-    return {
-      isSuccess: false,
-      newsPosts: [],
-      errorMsg: `API ERROR, error code ${response.statusCode}, error reason: ${response.jsonBody.detail}`
-    }
-  }
-}
-
 export async function getTwitterUserPost(pjName: string, accountNameList: string[]): Promise<NewsResponse> {
   const USER_NAME_LIST = accountNameList
 
