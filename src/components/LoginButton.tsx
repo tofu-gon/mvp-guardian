@@ -79,7 +79,6 @@ export default function LoginButton() {
         if (!response.ok) throw new Error("Failed to fetch news");
         const data = await response.json();
         const news: NewsItem[] = data.news
-        console.log(news)
         setNews(news)
       } catch (error) {
         console.error("Error fetching news:", error);
@@ -96,6 +95,7 @@ export default function LoginButton() {
     <Flex height="100vh" align="center" justify="center" p={4}>
       <Box
         maxWidth="900px"
+        minHeight="100vh"
         width="100%"
         border="1px solid lightgray"
         borderRadius="lg"
@@ -140,7 +140,7 @@ export default function LoginButton() {
 
                 <TabPanels maxHeight="calc(100vh - 200px)" overflowY="auto">
                   {projects.map((project, index) => (
-                    <TabPanel key={index}>
+                    <TabPanel key={index} position="relative" pt={0}>
                       <VStack spacing={4} align="stretch">
                         {news.filter(item => item.project.toLowerCase() === project.toLowerCase()).length > 0 ? (
                           news.filter(item => item.project.toLowerCase() === project.toLowerCase())
