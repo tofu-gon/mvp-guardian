@@ -145,7 +145,13 @@ export default function LoginButton() {
                 <TabPanels maxHeight="calc(100vh - 230px)" overflowY="auto">
                   {projects.map((project, index) => (
                     <TabPanel key={index} position="relative" pt={4}>
-                      <Button colorScheme='red' mb={4} onClick={showComingAlert}>revoke!</Button>
+
+                      {news.some(item => item.project.toLowerCase() === project.toLowerCase()) && (
+                        <Button colorScheme="red" mb={4} onClick={showComingAlert}>
+                          revoke!
+                        </Button>
+                      )}
+
                       <VStack spacing={4} align="stretch">
                         {news.filter(item => item.project.toLowerCase() === project.toLowerCase()).length > 0 ? (
                           news.filter(item => item.project.toLowerCase() === project.toLowerCase())
