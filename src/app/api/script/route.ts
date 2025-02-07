@@ -57,7 +57,7 @@ export async function GET() {
 
     // DB記録
     const supabase = await createClient();
-    const {data, error} = await supabase.from("newsposts").upsert(
+    await supabase.from("newsposts").upsert(
       usefulNews,
       {onConflict: 'postid,type'}
     )
@@ -66,8 +66,8 @@ export async function GET() {
     return new Response(JSON.stringify({
       databaseData: res
     }), { status: 200 })
-
-  }catch(e: Error){
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }catch(e: any){
     return new Response(JSON.stringify({
       error: e.message
     }), {status: 500})

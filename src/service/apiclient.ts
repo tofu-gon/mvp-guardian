@@ -46,6 +46,7 @@ async function submitRequest<B>(
   body: B | null,
   query?: Record<string, string>,
   timeoutMs?: number
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<{ statusCode: number; jsonBody?: any; textBody?: string }> {
   const apiUrl = new URL(`${url}`)
 
@@ -81,6 +82,7 @@ async function submitRequest<B>(
       statusCode: status,
       jsonBody: json,
     }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     // console.debug('--------result is not json--------')
     // console.debug(responseText)

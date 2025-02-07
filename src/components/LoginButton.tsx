@@ -93,6 +93,7 @@ export default function LoginButton() {
 
     fetchProjects();
     fetchNews()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account])
 
   return (
