@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Button, Card, CardBody, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Flex, Icon, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from 'react';
+import { FaDiscord, FaTwitter } from 'react-icons/fa';
 
 declare global {
   interface Window {
@@ -31,8 +32,7 @@ export default function LoginButton() {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        // setAccount(accounts[0]);
-        setAccount('0xccB82218c6F82a2B750Cf0D65e21AE6eAE14070c')
+        setAccount(accounts[0]);
       } catch (error) {
         console.error("Wallet connection failed", error);
       }
@@ -50,9 +50,19 @@ export default function LoginButton() {
         if (!response.ok) {
           throw new Error("Failed to fetch project list");
         }
-        const data: {serviceList: string[]} = await response.json();
-        console.log(data.serviceList)
-        setProjects(data.serviceList);
+        const data = await response.json();
+        const serviceList: string[] = data.serviceList
+        if(serviceList.length != 0){
+          serviceList.push('security')
+          const customOrder = ["Aave", "Uniswap", "security"];
+
+          const sortedArray = [
+            ...customOrder.filter(item => serviceList.includes(item)), // 存在する要素だけを追加
+            ...serviceList.filter(item => !customOrder.includes(item)) // 残りの要素
+          ];
+          setProjects(sortedArray);
+        }
+
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -62,8 +72,10 @@ export default function LoginButton() {
         setLoading(true);
         const response = await fetch(`/api/news`);
         if (!response.ok) throw new Error("Failed to fetch news");
-        const data: NewsItem[] = await response.json();
-        setNews(data);
+        const data = await response.json();
+        const news: NewsItem[] = data.news
+        console.log(news)
+        setNews(news)
       } catch (error) {
         console.error("Error fetching news:", error);
       } finally {
@@ -75,49 +87,99 @@ export default function LoginButton() {
     fetchNews()
   }, [account])
 
-  return (<>
-      {!account && (
-        <Flex height="100vh" align="center" justify="start" direction="column">
-          <Button colorScheme="blue" size="lg" onClick={connectWallet}>
-            Connect wallet
-          </Button>
-        </Flex>
-      )}
-      {account && (
-        <>
-          <Flex height="100vh" align="center" justify="start" direction="column">
-            <Box p={4} borderWidth={1} borderRadius="lg" boxShadow="md">
-              <Text>Connected Account:</Text>
-              <Text>{account}</Text>
+  return (
+    <Flex height="100vh" align="center" justify="center" p={4}>
+      <Box
+        maxWidth="900px"
+        width="100%"
+        border="1px solid lightgray"
+        borderRadius="lg"
+        boxShadow="md"
+        p={6}
+        bg="white"
+        margin="0 auto"
+      >
+        {account ? (
+          <>
+            <Box p={4} borderWidth={1} borderRadius="lg" boxShadow="md" textAlign="center">
+              <Text fontSize="lg" fontWeight="bold">Connected Account:</Text>
+              <Text fontSize="md" color="blue.500">{account}</Text>
             </Box>
 
-          {/* pjのリスト */}
-          <Flex wrap="wrap" justify="center" gap={4} width="100%">
             {projects.length > 0 ? (
-              projects.map((project, index) => (
-                <Card
-                  key={index}
-                  width={["100%", "45%"]} // 画面サイズによってレスポンシブ対応
-                  minWidth="250px"
-                  borderWidth={1}
+              <Tabs variant="enclosed" mt={6}>
+                {/* タブリスト（スクロール可能で、スクロール目印付き） */}
+                <TabList
+                  overflowX="auto"
+                  maxW="100%"
+                  whiteSpace="nowrap"
+                  bg="gray.50"
                   borderRadius="lg"
-                  boxShadow="md"
+                  p={2}
+                  position="sticky"
+                  top={0}
+                  zIndex={1}
+                  css={{
+                    "&::-webkit-scrollbar": { display: "none" }, // スクロールバーを非表示
+                    maskImage:
+                      "linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)",
+                  }}
                 >
-                  <CardBody>
-                    <Text fontSize="lg" fontWeight="bold">
+                  {projects.map((project, index) => (
+                    <Tab key={index} flexShrink={0} px={4}>
                       {project}
-                    </Text>
-                  </CardBody>
-                </Card>
-              ))
-            ) : (
-              <Text>No projects found</Text>
-            )}
-          </Flex>
-          </Flex>
-        </>
-      )}
+                    </Tab>
+                  ))}
+                </TabList>
 
-    </>
-    );
+                <TabPanels maxHeight="calc(100vh - 200px)" overflowY="auto">
+                  {projects.map((project, index) => (
+                    <TabPanel key={index}>
+                      <VStack spacing={4} align="stretch">
+                        {news.filter(item => item.project.toLowerCase() === project.toLowerCase()).length > 0 ? (
+                          news.filter(item => item.project.toLowerCase() === project.toLowerCase())
+                            .map((item) => (
+                              <Card key={item.id} borderWidth={1} borderRadius="lg" boxShadow="md">
+                                <CardBody>
+                                  <Flex align="center" gap={2}>
+                                    <Icon as={item.type === "twitter" ? FaTwitter : FaDiscord} boxSize={6} />
+                                    <Text fontSize="sm" color="gray.500">
+                                      {new Date(item.timestamp).toLocaleString()}
+                                    </Text>
+                                  </Flex>
+                                  <Text fontWeight="bold">{item.author}</Text>
+                                  <Text mt={2}>{item.content}</Text>
+                                </CardBody>
+                              </Card>
+                            ))
+                        ) : (
+                          <Text>No news available for this project</Text>
+                        )}
+                      </VStack>
+                    </TabPanel>
+                  ))}
+                </TabPanels>
+              </Tabs>
+            ) : (
+              <>
+                {loading ? (
+                  <Text>Loading news...</Text>
+                ):(
+                  <Text textAlign="center" fontSize="lg" color="gray.600" mt={4}>
+                    No projects found
+                  </Text>
+                )}
+              </>
+            )}
+          </>
+        ) : (
+          <Flex justify="center">
+            <Button colorScheme="blue" size="lg" onClick={connectWallet}>
+              Connect wallet
+            </Button>
+          </Flex>
+        )}
+      </Box>
+    </Flex>
+  );
 }
