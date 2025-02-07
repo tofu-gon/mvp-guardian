@@ -30,11 +30,13 @@ export async function GET() {
       twitterResponse.errorMsg += officialTwitter.errorMsg
 
       // SWARM APIで関連pjのsecurityポストを取得
-      const referenceTwitter = await getSecurityTweet(it.pjName)
+      if(it.pjName !== 'security') {
+        const referenceTwitter = await getSecurityTweet(it.pjName)
 
-      twitterResponse.isSuccess = twitterResponse.isSuccess && referenceTwitter.isSuccess
-      twitterResponse.newsPosts.push(...referenceTwitter.newsPosts)
-      twitterResponse.errorMsg += referenceTwitter.newsPosts
+        twitterResponse.isSuccess = twitterResponse.isSuccess && referenceTwitter.isSuccess
+        twitterResponse.newsPosts.push(...referenceTwitter.newsPosts)
+        twitterResponse.errorMsg += referenceTwitter.newsPosts
+      }
     }))
 
 

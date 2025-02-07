@@ -6,82 +6,82 @@ export const TWITTER_INCIDENT_PJ_LIST: TweetAccounts[] = [
     pjName: "Lido",
     accountNames: ["cobie", "LidoFinance"]
   },
-  {
-    pjName: "Aave",
-    accountNames: ["StaniKulechov", "AaveAave"]
-  },
-  {
-    pjName: "EigenLayer",
-    accountNames: ["sreeramkannan", "eigenlayer"]
-  },
-  {
-    pjName: "ether.fi",
-    accountNames: ["ether_fi"]
-  },
-  {
-    pjName: "Binance staked ETH (BETH)",
-    accountNames: ["cz_binance", "Binance"]
-  },
-  {
-    pjName: "Uniswap",
-    accountNames: ["haydenzadams", "Uniswap"]
-  },
-  {
-    pjName: "Ethena Labs (USDe)",
-    accountNames: ["leptokurtic_", "ethena_labs"]
-  },
-  {
-    pjName: "JustLend",
-    accountNames: ["justinsuntron", "trondao"]
-  },
-  {
-    pjName: "MakerDAO (Spark/Sky)",
-    accountNames: ["RuneKek", "MakerDAO"]
-  },
-  {
-    pjName: "Babylon",
-    accountNames: ["baby_fisherman", "BabylonLabs_io"]
-  },
-  {
-    pjName: "STRX Finance",
-    accountNames: ["justinsuntron", "trondao"]
-  },
-  {
-    pjName: "Jito (JitoSOL)",
-    accountNames: ["Jito_Labs"]
-  },
-  {
-    pjName: "Morpho Protocol",
-    accountNames: ["PaulFrambot", "MorphoLabs"]
-  },
-  {
-    pjName: "Spark Protocol",
-    accountNames: ["RuneKek", "MakerDAO"]
-  },
-  {
-    pjName: "Compound",
-    accountNames: ["rleshner", "CompoundFinance"]
-  },
-  {
-    pjName: "Rocket Pool",
-    accountNames: ["Darius_Jito", "Rocket_Pool"]
-  },
-  {
-    pjName: "Binance staked SOL (BSOL)",
-    accountNames: ["cz_binance", "Binance"]
-  },
-  {
-    pjName: "Raydium",
-    accountNames: ["RaydiumProtocol"]
-  },
-  {
-    pjName: "PancakeSwap",
-    accountNames: ["PancakeSwap"]
-  },
-  {
-    pjName: "Convex Finance",
-    accountNames: ["ConvexFinance"]
-  },
+  // {
+  //   pjName: "Aave",
+  //   accountNames: ["StaniKulechov", "AaveAave"]
+  // },
+  // {
+  //   pjName: "EigenLayer",
+  //   accountNames: ["sreeramkannan", "eigenlayer"]
+  // },
+  // {
+  //   pjName: "ether.fi",
+  //   accountNames: ["ether_fi"]
+  // },
+  // {
+  //   pjName: "Binance staked ETH (BETH)",
+  //   accountNames: ["cz_binance", "Binance"]
+  // },
+  // {
+  //   pjName: "Uniswap",
+  //   accountNames: ["haydenzadams", "Uniswap"]
+  // },
+  // {
+  //   pjName: "Ethena Labs (USDe)",
+  //   accountNames: ["leptokurtic_", "ethena_labs"]
+  // },
+  // {
+  //   pjName: "JustLend",
+  //   accountNames: ["justinsuntron", "trondao"]
+  // },
+  // {
+  //   pjName: "MakerDAO (Spark/Sky)",
+  //   accountNames: ["RuneKek", "MakerDAO"]
+  // },
+  // {
+  //   pjName: "Babylon",
+  //   accountNames: ["baby_fisherman", "BabylonLabs_io"]
+  // },
+  // {
+  //   pjName: "STRX Finance",
+  //   accountNames: ["justinsuntron", "trondao"]
+  // },
+  // {
+  //   pjName: "Jito (JitoSOL)",
+  //   accountNames: ["Jito_Labs"]
+  // },
+  // {
+  //   pjName: "Morpho Protocol",
+  //   accountNames: ["PaulFrambot", "MorphoLabs"]
+  // },
+  // {
+  //   pjName: "Spark Protocol",
+  //   accountNames: ["RuneKek", "MakerDAO"]
+  // },
+  // {
+  //   pjName: "Compound",
+  //   accountNames: ["rleshner", "CompoundFinance"]
+  // },
+  // {
+  //   pjName: "Rocket Pool",
+  //   accountNames: ["Darius_Jito", "Rocket_Pool"]
+  // },
+  // {
+  //   pjName: "Binance staked SOL (BSOL)",
+  //   accountNames: ["cz_binance", "Binance"]
+  // },
+  // {
+  //   pjName: "Raydium",
+  //   accountNames: ["RaydiumProtocol"]
+  // },
+  // {
+  //   pjName: "PancakeSwap",
+  //   accountNames: ["PancakeSwap"]
+  // },
+  // {
+  //   pjName: "Convex Finance",
+  //   accountNames: ["ConvexFinance"]
+  // },
   {
     pjName: "security",
     accountNames: ["SlowMist_Team", "peckshield", "CertiK", "OpenZeppelin", "RevokeCash", "chain_security", "hackenclub", "WuBlockchain", "samczsun", "Mudit__Gupta", "zachxbt", "tayvano_", "FrankResearcher", "PeckShieldAlert", "CertiKAlert", "CyversAlerts", "De_FiSecurity", "WatcherGuru"]

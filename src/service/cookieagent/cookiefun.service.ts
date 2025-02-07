@@ -35,28 +35,27 @@ export async function getSecurityTweet(pjName: string): Promise<NewsResponse>{
   const headers: Record<string, string> = {
     'x-api-key': authToken(),
   }
-  console.log(Date())
   const param: Record<string, string> = {
     from: getFormattedDate(7),
     to: getFormattedDate(0)
   }
 
   const response = await submitGetRequest(url, headers, param)
-  console.log(response.jsonBody.ok.map((post:{authorUsername: string, createdAt: string, text: string}):News => {
-    return {
-      postid: post.authorUsername + post.createdAt,
-      type: pjName,
-      content: post.text,
-      project: pjName,
-      author: post.authorUsername,
-      timestamp: post.createdAt
-    }
-  }))
 
   if(response.statusCode == 200){
     return {
       isSuccess: true,
-      newsPosts: response.jsonBody.data,
+      newsPosts:
+        response.jsonBody.ok.map((post:{authorUsername: string, createdAt: string, text: string}):News => {
+          return {
+            postid: post.authorUsername + post.createdAt,
+            type: pjName,
+            content: post.text,
+            project: pjName,
+            author: post.authorUsername,
+            timestamp: post.createdAt
+          }
+        }),
       errorMsg: ''
     }
   }else{
