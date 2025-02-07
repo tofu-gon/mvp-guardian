@@ -41,6 +41,11 @@ export default function LoginButton() {
     }
   };
 
+  const targetPjList = ["Aave", "Uniswap", "security"];
+  const isTargetPj = (pjName: string) => {
+    return targetPjList.map(item => item.toLowerCase()).includes(pjName.toLowerCase());
+  }
+
   useEffect(() => {
     if(!account) return;
 
@@ -54,11 +59,11 @@ export default function LoginButton() {
         const serviceList: string[] = data.serviceList
         if(serviceList.length != 0){
           serviceList.push('security')
-          const customOrder = ["Aave", "Uniswap", "security"];
+
 
           const sortedArray = [
-            ...customOrder.filter(item => serviceList.includes(item)), // 存在する要素だけを追加
-            ...serviceList.filter(item => !customOrder.includes(item)) // 残りの要素
+            ...targetPjList.filter(item => serviceList.includes(item)), // 存在する要素だけを追加
+            ...serviceList.filter(item => !targetPjList.includes(item)) // 残りの要素
           ];
           setProjects(sortedArray);
         }
@@ -154,7 +159,11 @@ export default function LoginButton() {
                               </Card>
                             ))
                         ) : (
-                          <Text>No news available for this project</Text>
+                          isTargetPj(project) ? (
+                            <Text>No news available.</Text>
+                          ): (
+                            <Text>Coming soon.</Text>
+                          )
                         )}
                       </VStack>
                     </TabPanel>
