@@ -1,10 +1,15 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+let supabase: ReturnType<typeof createServerClient> | null = null
+
 export async function createClient() {
+  if(supabase) return supabase
+
+
   const cookieStore = await cookies()
 
-  return createServerClient(
+  supabase = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
     {
@@ -27,4 +32,6 @@ export async function createClient() {
       },
     }
   )
+
+  return supabase
 }

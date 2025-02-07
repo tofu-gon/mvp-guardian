@@ -1,18 +1,15 @@
-import { getDiscordAnnounce } from '@/service/newspicks/discord.service';
-import { getGoogleNews } from '@/service/newspicks/serp.service';
-import { getTwitterUserPost } from '@/service/newspicks/twitter.service';
+import { createClient } from '@/utils/supabase/server';
 import { NextRequest } from 'next/server';
 
-export async function GET(req: NextRequest){
-  const keyword = req.nextUrl.searchParams.get('keyword') || 'uniswap'
-  console.log(keyword)
+export async function GET(){
 
   try{
+    const supabase = await createClient();
+
+    const {data, error} = await supabase.from("newsposts").select()
+
     return new Response(JSON.stringify({
-      // twitterRecentPost: await getTwitterRecentPost(keyword), // ツイッター、直近の関連キーワードツイート
-      twitterUserPost: await getTwitterUserPost("web3", ["cookiedotfun"]), // ツイッター、指定ユーザーの直近ツイート
-      googleNews: await getGoogleNews(keyword),
-      discordAnnounce: await getDiscordAnnounce(),
+      news: data,
     }), {status: 200})
   } catch (e: Error){
     return new Response(JSON.stringify({
