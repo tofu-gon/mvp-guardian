@@ -2,14 +2,14 @@ import { submitGetRequest } from '../apiclient';
 import { News, NewsResponse, TweetAccounts } from './type';
 
 export const TWITTER_INCIDENT_PJ_LIST: TweetAccounts[] = [
-  {
-    pjName: "Lido",
-    accountNames: ["cobie", "LidoFinance"]
-  },
   // {
-  //   pjName: "Aave",
-  //   accountNames: ["StaniKulechov", "AaveAave"]
+  //   pjName: "Lido",
+  //   accountNames: ["cobie", "LidoFinance"]
   // },
+  {
+    pjName: "Aave",
+    accountNames: ["StaniKulechov", "AaveAave"]
+  },
   // {
   //   pjName: "EigenLayer",
   //   accountNames: ["sreeramkannan", "eigenlayer"]
@@ -22,10 +22,10 @@ export const TWITTER_INCIDENT_PJ_LIST: TweetAccounts[] = [
   //   pjName: "Binance staked ETH (BETH)",
   //   accountNames: ["cz_binance", "Binance"]
   // },
-  // {
-  //   pjName: "Uniswap",
-  //   accountNames: ["haydenzadams", "Uniswap"]
-  // },
+  {
+    pjName: "Uniswap",
+    accountNames: ["haydenzadams", "Uniswap"]
+  },
   // {
   //   pjName: "Ethena Labs (USDe)",
   //   accountNames: ["leptokurtic_", "ethena_labs"]
@@ -84,7 +84,23 @@ export const TWITTER_INCIDENT_PJ_LIST: TweetAccounts[] = [
   // },
   {
     pjName: "security",
-    accountNames: ["SlowMist_Team", "peckshield", "CertiK", "OpenZeppelin", "RevokeCash", "chain_security", "hackenclub", "WuBlockchain", "samczsun", "Mudit__Gupta", "zachxbt", "tayvano_", "FrankResearcher", "PeckShieldAlert", "CertiKAlert", "CyversAlerts", "De_FiSecurity", "WatcherGuru"]
+    accountNames: [
+      "SlowMist_Team", "peckshield", "CertiK",
+      "OpenZeppelin",
+      "RevokeCash",
+      "chain_security",
+      "hackenclub",
+      "WuBlockchain",
+      "samczsun",
+      "Mudit__Gupta",
+      "zachxbt",
+      "tayvano_",
+      "FrankResearcher",
+      "PeckShieldAlert",
+      "CertiKAlert",
+      "CyversAlerts",
+      "De_FiSecurity",
+      "WatcherGuru"]
   }
 ]
 
