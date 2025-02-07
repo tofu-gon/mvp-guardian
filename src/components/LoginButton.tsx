@@ -41,6 +41,10 @@ export default function LoginButton() {
     }
   };
 
+  const showComingAlert = () => {
+    alert("Revoke Coming soon.")
+  }
+
   const targetPjList = ["Aave", "Uniswap", "security"];
   const isTargetPj = (pjName: string) => {
     return targetPjList.map(item => item.toLowerCase()).includes(pjName.toLowerCase());
@@ -138,9 +142,10 @@ export default function LoginButton() {
                   ))}
                 </TabList>
 
-                <TabPanels maxHeight="calc(100vh - 200px)" overflowY="auto">
+                <TabPanels maxHeight="calc(100vh - 230px)" overflowY="auto">
                   {projects.map((project, index) => (
-                    <TabPanel key={index} position="relative" pt={0}>
+                    <TabPanel key={index} position="relative" pt={4}>
+                      <Button colorScheme='red' mb={4} onClick={showComingAlert}>revoke!</Button>
                       <VStack spacing={4} align="stretch">
                         {news.filter(item => item.project.toLowerCase() === project.toLowerCase()).length > 0 ? (
                           news.filter(item => item.project.toLowerCase() === project.toLowerCase())
