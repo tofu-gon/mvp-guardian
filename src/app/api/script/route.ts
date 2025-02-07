@@ -1,3 +1,4 @@
+import { getSecurityTweet } from '@/service/cookieagent/cookiefun.service'
 import { getDiscordAnnounce } from '@/service/newspicks/discord.service'
 import { getTwitterUserPost, TWITTER_INCIDENT_PJ_LIST } from '@/service/newspicks/twitter.service'
 import { News, NewsResponse, TweetAccounts } from '@/service/newspicks/type'
@@ -10,8 +11,8 @@ export async function GET() {
     // disco取得:
     const discoResponse = await getDiscordAnnounce()
 
-    // tweeter取得
-    const tweeterResponse: NewsResponse = {
+    // twitter取得
+    const twitterResponse: NewsResponse = {
       isSuccess: true,
       newsPosts: [],
       errorMsg: ''
@@ -19,18 +20,27 @@ export async function GET() {
     const pjList: TweetAccounts[] = TWITTER_INCIDENT_PJ_LIST
 
     await Promise.all(pjList.map(async it => {
+      // 公式APIより結果取得
       const pjName = it.pjName
       const accountNameList = it.accountNames
-      const tweet = await getTwitterUserPost(pjName, accountNameList)
+      const officialTwitter = await getTwitterUserPost(pjName, accountNameList)
 
-      tweeterResponse.isSuccess = tweeterResponse.isSuccess && tweet.isSuccess
-      tweeterResponse.newsPosts.push(...tweet.newsPosts)
-      tweeterResponse.errorMsg += tweet.errorMsg
+      twitterResponse.isSuccess = twitterResponse.isSuccess && officialTwitter.isSuccess
+      twitterResponse.newsPosts.push(...officialTwitter.newsPosts)
+      twitterResponse.errorMsg += officialTwitter.errorMsg
+
+      // SWARM APIで関連pjのsecurityポストを取得
+      const referenceTwitter = await getSecurityTweet(it.pjName)
+
+      twitterResponse.isSuccess = twitterResponse.isSuccess && referenceTwitter.isSuccess
+      twitterResponse.newsPosts.push(...referenceTwitter.newsPosts)
+      twitterResponse.errorMsg += referenceTwitter.newsPosts
     }))
+
 
     // ###################################
     // 結果を結合
-    const news: News[] = [...discoResponse.newsPosts, ...tweeterResponse.newsPosts]
+    const news: News[] = [...discoResponse.newsPosts, ...twitterResponse.newsPosts]
     const usefulNews : News[] = []
     await Promise.all(
       news.map(async post => {
