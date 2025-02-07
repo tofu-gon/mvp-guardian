@@ -135,7 +135,7 @@ export async function getTwitterUserPost(pjName: string, accountNameList: string
       const tmp = response.jsonBody.data.map((tweet: { id: string, text: string, created_at: string }):News => {
         return {
           postid: tweet.id,
-          type: 'tweet',
+          type: 'twitter',
           content: tweet.text,
           project: pjName,
           author: name,

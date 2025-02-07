@@ -49,7 +49,7 @@ export async function getSecurityTweet(pjName: string): Promise<NewsResponse>{
         response.jsonBody.ok.map((post:{authorUsername: string, createdAt: string, text: string}):News => {
           return {
             postid: post.authorUsername + post.createdAt,
-            type: pjName,
+            type: 'twitter',
             content: post.text,
             project: pjName,
             author: post.authorUsername,
