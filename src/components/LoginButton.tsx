@@ -120,9 +120,10 @@ export default function LoginButton() {
                   top={0}
                   zIndex={1}
                   css={{
-                    "&::-webkit-scrollbar": { display: "none" }, // スクロールバーを非表示
-                    maskImage:
-                      "linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)",
+                    "&::-webkit-scrollbar": { width: "12px" }, // スクロールバーの幅を指定
+                    "&::-webkit-scrollbar-track": { background: "#f1f1f1" }, // スクロールバーのトラック部分
+                    "&::-webkit-scrollbar-thumb": { background: "#888" }, // スクロールバーのつまみ部分
+                    "&::-webkit-scrollbar-thumb:hover": { background: "#555" } // スクロールバーのつまみ部分がホバーされた時
                   }}
                 >
                   {projects.map((project, index) => (
