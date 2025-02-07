@@ -42,7 +42,7 @@ export default function LoginButton() {
   };
 
   const showComingAlert = () => {
-    alert("Revoke Coming soon.")
+    alert("Revoke approvals function is a demonstration.")
   }
 
   const targetPjList = ["Aave", "Uniswap", "security"];
