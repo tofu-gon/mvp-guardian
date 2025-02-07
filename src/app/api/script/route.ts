@@ -39,7 +39,6 @@ export async function GET() {
       }
     }))
 
-
     // ###################################
     // 結果を結合
     const news: News[] = [...discoResponse.newsPosts, ...twitterResponse.newsPosts]
@@ -62,10 +61,6 @@ export async function GET() {
       usefulNews,
       {onConflict: 'postid,type'}
     )
-    console.log('----------')
-    console.log(data)
-    console.log(error)
-
     const res = await supabase.from("newsposts").select()
 
     return new Response(JSON.stringify({

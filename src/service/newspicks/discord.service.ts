@@ -26,7 +26,9 @@ export async function getDiscordAnnounce(afterId?: string): Promise<NewsResponse
           postid: post.id,
           type: 'discord',
           content: post.content + post.embeds?.map(emb => `\n${emb.title}\n"""\n${emb.description}\n"""`).join(''),
-          project: post.author.username, // TODO: 判定方法
+          project: post.author.username.toLowerCase().includes('uniswap') ? 'uniswap' :
+                    post.author.username.toLowerCase().includes('aave') ? 'aave' :
+                    post.author.username,
           author: post.author.username,
           timestamp: post.timestamp,
         }
