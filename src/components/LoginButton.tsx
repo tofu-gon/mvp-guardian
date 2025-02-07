@@ -46,9 +46,6 @@ export default function LoginButton() {
   }
 
   const targetPjList = ["Aave", "Uniswap", "security"];
-  const isTargetPj = (pjName: string) => {
-    return targetPjList.map(item => item.toLowerCase()).includes(pjName.toLowerCase());
-  }
 
   useEffect(() => {
     if(!account) return;
@@ -61,17 +58,14 @@ export default function LoginButton() {
         }
         const data = await response.json();
         const serviceList: string[] = data.serviceList
-        if(serviceList.length != 0){
-          serviceList.push('security')
 
+        serviceList.push('security')
 
-          const sortedArray = [
-            ...targetPjList.filter(item => serviceList.includes(item)), // 存在する要素だけを追加
-            ...serviceList.filter(item => !targetPjList.includes(item)) // 残りの要素
-          ];
-          setProjects(sortedArray);
-        }
-
+        const sortedArray = [
+          ...targetPjList.filter(item => serviceList.includes(item)), // 存在する要素だけを追加
+          ...serviceList.filter(item => !targetPjList.includes(item)) // 残りの要素
+        ];
+        setProjects(['DEMO', ...sortedArray]); // demo for hackathon
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -147,7 +141,7 @@ export default function LoginButton() {
                   {projects.map((project, index) => (
                     <TabPanel key={index} position="relative" pt={4}>
 
-                      {news.some(item => item.project.toLowerCase() === project.toLowerCase()) && (
+                      { (project.toLowerCase() === 'demo') && (
                         <Button colorScheme="red" mb={4} onClick={showComingAlert}>
                           revoke!
                         </Button>
@@ -156,26 +150,33 @@ export default function LoginButton() {
                       <VStack spacing={4} align="stretch">
                         {news.filter(item => item.project.toLowerCase() === project.toLowerCase()).length > 0 ? (
                           news.filter(item => item.project.toLowerCase() === project.toLowerCase())
-                            .map((item) => (
-                              <Card key={item.id} borderWidth={1} borderRadius="lg" boxShadow="md">
-                                <CardBody>
-                                  <Flex align="center" gap={2}>
-                                    <Icon as={item.type === "twitter" ? FaTwitter : FaDiscord} boxSize={6} />
-                                    <Text fontSize="sm" color="gray.500">
-                                      {new Date(item.timestamp).toLocaleString()}
-                                    </Text>
-                                  </Flex>
-                                  <Text fontWeight="bold">{item.author}</Text>
-                                  <Text mt={2}>{item.content}</Text>
-                                </CardBody>
-                              </Card>
-                            ))
-                        ) : (
-                          isTargetPj(project) ? (
-                            <Text>No news available.</Text>
-                          ): (
-                            <Text>Coming soon.</Text>
+                            .map((item) => {
+                              const isDemo = project.toLowerCase() === "demo";
+                              return (
+                                <Card
+                                  key={item.id}
+                                  borderWidth={1}
+                                  borderRadius="lg"
+                                  boxShadow="md"
+                                  borderColor={isDemo ? "red.500" : "gray.200"}
+                                  bg={isDemo ? "red.50" : "white"}
+                                >
+                                  <CardBody>
+                                    <Flex align="center" gap={2}>
+                                      <Icon as={item.type === "twitter" ? FaTwitter : FaDiscord} boxSize={6} />
+                                      <Text fontSize="sm" color="gray.500">
+                                        {new Date(item.timestamp).toLocaleString()}
+                                      </Text>
+                                    </Flex>
+                                    <Text fontWeight="bold">{item.author}</Text>
+                                    <Text mt={2}>{item.content}</Text>
+                                  </CardBody>
+                                </Card>
+                              )
+                            }
                           )
+                        ) : (
+                          <Text>No news available.</Text>
                         )}
                       </VStack>
                     </TabPanel>
