@@ -29,7 +29,7 @@ export default function LoginButton() {
   };
 
   return (
-    <Flex height="100vh" align="center" justify="center">
+    <Flex height="100vh" align="center" justify="start" direction="column">
       {account && (
         <Box p={4} borderWidth={1} borderRadius="lg" boxShadow="md">
         <Text>Connected Account:</Text>
