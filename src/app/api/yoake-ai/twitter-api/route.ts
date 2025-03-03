@@ -1,4 +1,4 @@
-import { getUserProfile } from '@/service/yoake-ai/user-profile.service';
+import { getRecentTweets, getTweetReplyComments, getUserProfile } from '@/service/yoake-ai/twitter-user-api.service';
 import { NextRequest } from 'next/server';
 
 // Twitter APIクライアントの初期化
@@ -13,10 +13,16 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    const res = await getUserProfile(username)
+    const userInfo = await getUserProfile(username)
+    const tweets = await getRecentTweets(userInfo.id)
+    const tweetsWithReplys = await Promise.all(tweets.map(async (tweet: {id: string}) => {
+      const replys = await getTweetReplyComments(tweet.id)
+      return {...tweet, replys: replys}
+    }))
 
     return new Response(JSON.stringify({
-      result: res
+      userinfo: userInfo,
+      tweets: tweetsWithReplys
     }), {status: 200})
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } catch (e: any) {
