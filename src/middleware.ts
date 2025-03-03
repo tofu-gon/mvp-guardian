@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(req: Request) {
+
+  if (process.env.BASIC_AUTH_ENABLE === 'false') {
+    return NextResponse.next();
+  }
+
   const basicAuth = req.headers.get('authorization');
 
   // Production環境のみ適用
